@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+/* Theme tokens */
+@theme {
+  --color-saffron: #F4A261;
+  --color-cream: #FFF7ED;
+  --color-dark: #1F2937;
+  --color-muted: #6B7280;
+  --color-deep: #0F172A;
+  --color-gold: #F59E0B;
+
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+}
+
+/* Base styles */
+@layer base {
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-dark);
+    font-family: var(--font-serif);
+    scroll-behavior: smooth;
+  }
+
+  body[data-theme="dark"] {
+    --color-cream: #0b1120;
+    --color-dark: #e2e8f0;
+    --color-muted: #94a3b8;
+    background-image:
+      radial-gradient(circle at top, rgba(245, 158, 11, 0.12), transparent 45%),
+      radial-gradient(circle at bottom, rgba(56, 189, 248, 0.08), transparent 55%);
+  }
+
+  body[data-theme="dark"] .bg-white {
+    background-color: #0f172a;
+  }
+
+  body[data-theme="dark"] .border {
+    border-color: #1f2937;
+  }
+
+  body[data-theme="dark"] .text-dark {
+    color: #e2e8f0;
+  }
+
+  body[data-theme="dark"] .text-muted {
+    color: #9ca3af;
+  }
+
+  body[data-theme="dark"] .text-amber-900 {
+    color: #fde68a;
+  }
+
+  body[data-theme="dark"] .text-amber-800 {
+    color: #fcd34d;
+  }
+
+  body[data-theme="dark"] .text-amber-700 {
+    color: #fbbf24;
+  }
+
+  body[data-theme="dark"] .card-surface {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.96));
+    border-color: rgba(251, 191, 36, 0.2);
+    color: #e5e7eb;
+  }
+
+  body[data-theme="dark"] .card-surface h1,
+  body[data-theme="dark"] .card-surface h2,
+  body[data-theme="dark"] .card-surface h3,
+  body[data-theme="dark"] .card-surface h4 {
+    color: #fde68a;
+  }
+
+  body[data-festival="diwali"] {
+    background-image:
+      radial-gradient(circle at top left, rgba(244, 162, 97, 0.2), transparent 45%),
+      radial-gradient(circle at bottom right, rgba(255, 212, 128, 0.18), transparent 45%);
+  }
+
+  body[data-festival="gita-jayanti"] {
+    background-image:
+      radial-gradient(circle at top right, rgba(94, 234, 212, 0.16), transparent 45%),
+      radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 45%);
+  }
+}
+
+/* Utility aliases (clean JSX) */
+@layer utilities {
+  .bg-saffron {
+    background-color: var(--color-saffron);
+  }
+  .bg-cream {
+    background-color: var(--color-cream);
+  }
+  .text-dark {
+    color: var(--color-dark);
+  }
+  .text-muted {
+    color: var(--color-muted);
+  }
+
+  .section-shell {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at top left, rgba(244, 162, 97, 0.18), transparent 40%),
+      radial-gradient(circle at bottom right, rgba(251, 191, 36, 0.12), transparent 45%),
+      linear-gradient(180deg, rgba(255, 247, 237, 0.9), rgba(255, 255, 255, 0.85));
+  }
+
+  .card-surface {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 237, 0.9));
+    border: 1px solid rgba(251, 191, 36, 0.22);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .gold-shadow {
+    box-shadow: 0 18px 40px rgba(245, 158, 11, 0.18);
+  }
+
+  .glow-divider {
+    background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.6), transparent);
+    height: 1px;
+    width: 100%;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.7s ease both;
+  }
+
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: rgba(245, 158, 11, 0.12);
+    border-radius: 999px;
+  }
+
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
