@@ -143,10 +143,24 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
     }
   }, [prefs?.rate]);
 
+  const handleSeek = (e) => {
+    if (!audioRef.current || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    audioRef.current.currentTime = ratio * duration;
+  };
+
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
   const fileUrl = getAudioFileUrl({ textId, language });
 
+  const formatTime = (s) => {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, "0")}`;
+  };
+
   return (
-    <div className="inline-flex items-center gap-2">
+    <div className="inline-flex items-center gap-2 flex-wrap">
       <button
         onClick={togglePlay}
         disabled={loading}
@@ -158,16 +172,38 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
             className="h-4 w-4"
             aria-hidden="true"
           >
-            <path
-              fill="currentColor"
-              d="M5 9v6h4l5 4V5L9 9H5zm11.5 3a4.5 4.5 0 0 0-2-3.74v7.48A4.5 4.5 0 0 0 16.5 12zm0-9a9 9 0 0 1 0 18v-2a7 7 0 0 0 0-14V3z"
-            />
+            {isPlaying ? (
+              <path fill="currentColor" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+            ) : (
+              <path fill="currentColor" d="M5 9v6h4l5 4V5L9 9H5zm11.5 3a4.5 4.5 0 0 0-2-3.74v7.48A4.5 4.5 0 0 0 16.5 12zm0-9a9 9 0 0 1 0 18v-2a7 7 0 0 0 0-14V3z" />
+            )}
           </svg>
         </span>
         <span className="text-sm font-medium">
           {loading ? "Loading" : isPlaying ? "Pause" : "Listen"}
         </span>
       </button>
+
+      {duration > 0 && (
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted w-10 text-right">{formatTime(currentTime)}</span>
+          <div
+            onClick={handleSeek}
+            className="w-24 h-2 rounded-full bg-amber-100 cursor-pointer relative overflow-hidden"
+            role="progressbar"
+            aria-valuenow={Math.round(progressPercent)}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
+            <div
+              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 transition-all"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+          <span className="text-xs text-muted w-10">{formatTime(duration)}</span>
+        </div>
+      )}
+
       <select
         value={prefs?.rate || 1}
         onChange={(e) => handleRateChange(e.target.value)}
@@ -180,11 +216,6 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
           </option>
         ))}
       </select>
-      {duration > 0 && (
-        <span className="text-xs text-muted">
-          {Math.floor(currentTime)}s / {Math.floor(duration)}s
-        </span>
-      )}
       {fileUrl && (
         <a
           href={fileUrl}

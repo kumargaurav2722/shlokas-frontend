@@ -1,9 +1,29 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useLanguage from "../../hooks/useLanguage";
 import { withLangPrefix } from "../../utils/lang";
+import { getVerseOfDay } from "../../services/verseOfDay.service";
 
 export default function HeroSection() {
   const { language } = useLanguage();
+  const [verse, setVerse] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    getVerseOfDay(language)
+      .then((res) => {
+        if (active) setVerse(res.data || null);
+      })
+      .catch(() => { });
+    return () => { active = false; };
+  }, [language]);
+
+  const sanskrit = verse?.sanskrit || "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन";
+  const translation = verse?.translation || "You have the right to perform your duty, but not to the fruits of your actions.";
+  const label = verse
+    ? `${verse.sub_work || verse.work} ${verse.chapter}.${verse.verse}`
+    : "Bhagavad Gita 2.47";
+
   return (
     <section className="section-shell animate-fade-up">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
@@ -47,11 +67,10 @@ export default function HeroSection() {
                 Verse of the Day
               </p>
               <h3 className="mt-3 text-2xl font-semibold text-amber-900">
-                कर्मण्येवाधिकारस्ते मा फलेषु कदाचन
+                {sanskrit}
               </h3>
               <p className="mt-4 text-muted">
-                You have the right to perform your duty, but not to the fruits
-                of your actions.
+                {translation}
               </p>
               <div className="mt-6 flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-700">
@@ -59,9 +78,9 @@ export default function HeroSection() {
                 </span>
                 <div>
                   <p className="text-sm font-semibold text-amber-900">
-                    Bhagavad Gita 2.47
+                    {label}
                   </p>
-                  <p className="text-xs text-muted">Karma Yoga</p>
+                  <p className="text-xs text-muted">Daily Wisdom</p>
                 </div>
               </div>
             </div>

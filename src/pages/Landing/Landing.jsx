@@ -1,4 +1,5 @@
 import Navbar from "../../components/layout/Navbar";
+import Footer from "../../components/layout/Footer";
 import HeroSection from "./HeroSection";
 import VerseOfDaySection from "./VerseOfDaySection";
 import PopularShlokas from "./PopularShlokas";
@@ -28,6 +29,7 @@ export default function Landing() {
       <ChalisaSection />
       <PujaVidhiSection />
       <DailyPracticeSection />
+      <Footer />
     </>
   );
 }

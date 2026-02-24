@@ -15,7 +15,9 @@ const CATEGORY_MAP = {
   gita: { category: "itihasa", work: "Mahabharata", subWork: "Bhagavad Gita" },
   mahabharata: { category: "itihasa", work: "Mahabharata", subWork: "Bhagavad Gita" },
   upanishads: { category: "upanishad", work: "Upanishads" },
-  ramayana: { category: "itihasa", work: "Ramayana" }
+  ramayana: { category: "itihasa", work: "Ramayana" },
+  vedas: { category: "veda" },
+  puranas: { category: "purana" },
 };
 
 export default function VersePage({
@@ -182,11 +184,9 @@ export default function VersePage({
     const term = query.trim().toLowerCase();
     if (!term) return verses;
     return verses.filter((v) => {
-      const haystack = `${v.verse} ${v.sanskrit || ""} ${v.hi || ""} ${
-        v.en || ""
-      } ${v.bn || ""} ${v.mr || ""} ${v.te || ""} ${v.ta || ""} ${
-        v.kn || ""
-      }`.toLowerCase();
+      const haystack = `${v.verse} ${v.sanskrit || ""} ${v.hi || ""} ${v.en || ""
+        } ${v.bn || ""} ${v.mr || ""} ${v.te || ""} ${v.ta || ""} ${v.kn || ""
+        }`.toLowerCase();
       return haystack.includes(term);
     });
   }, [query, verses]);
@@ -222,7 +222,7 @@ export default function VersePage({
         chapter: focusVerseData.chapter,
         verse: focusVerseData.verse,
         language
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }, [focusVerseData?.id, focusVerseData?.chapter, focusVerseData?.verse, language]);
 
@@ -237,7 +237,7 @@ export default function VersePage({
       subWork: resolvedSubWork,
       chapter: chapterNumber,
       language
-    }).catch(() => {});
+    }).catch(() => { });
   }, [resolvedWork, resolvedSubWork, chapterNumber, focusVerseData?.id, language]);
 
   const topicsForVerse = focusVerseData

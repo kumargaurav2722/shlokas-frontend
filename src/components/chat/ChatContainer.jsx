@@ -13,6 +13,8 @@ export default function ChatContainer({ messages }) {
             key={idx}
             role={msg.role}
             content={msg.content}
+            references={msg.references}
+            provider={msg.provider}
           />
         ))}
       </div>
