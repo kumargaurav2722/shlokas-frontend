@@ -1,2 +1,2 @@
-pages
-next.config.cjs
+/pages/
+/next.config.cjs
