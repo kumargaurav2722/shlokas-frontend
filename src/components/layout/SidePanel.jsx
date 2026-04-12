@@ -1,4 +1,19 @@
+import { Link } from "react-router-dom";
+
 export default function SidePanel({ suggestions = [] }) {
+  // Parse verse reference from suggestion string (e.g., "Gita 2.47 – Karma Yoga" -> {chapter: 2, verse: 47})
+  const parseVerseRef = (suggestion) => {
+    const match = suggestion.match(/(\d+)\.(\d+)/);
+    if (match) {
+      return {
+        chapter: match[1],
+        verse: match[2],
+        label: suggestion
+      };
+    }
+    return null;
+  };
+
   return (
     <aside className="hidden w-80 shrink-0 border-l border-amber-100/70 bg-gradient-to-b from-amber-50/70 to-white lg:block">
       <div className="sticky top-20 p-6">
@@ -17,14 +32,29 @@ export default function SidePanel({ suggestions = [] }) {
           </p>
 
           <ul className="mt-4 space-y-3">
-            {suggestions.map((item) => (
-              <li
-                key={item}
-                className="rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900 shadow-sm hover:shadow-md transition"
-              >
-                {item}
-              </li>
-            ))}
+            {suggestions.map((item) => {
+              const verseRef = parseVerseRef(item);
+              if (verseRef) {
+                return (
+                  <li key={item}>
+                    <Link
+                      to={`/bhagavad-gita/${verseRef.chapter}/${verseRef.verse}`}
+                      className="block rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900 shadow-sm hover:shadow-md hover:bg-amber-50 transition"
+                    >
+                      {verseRef.label}
+                    </Link>
+                  </li>
+                );
+              }
+              return (
+                <li
+                  key={item}
+                  className="rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900 shadow-sm hover:shadow-md transition"
+                >
+                  {item}
+                </li>
+              );
+            })}
             {suggestions.length === 0 && (
               <li className="rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900/70">
                 No suggestions yet.
