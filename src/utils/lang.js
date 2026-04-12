@@ -16,7 +16,8 @@ export const getPathLanguage = (path = "") => {
 export const stripLangPrefix = (path = "") => {
   const parts = path.split("/").filter(Boolean);
   if (parts.length && SUPPORTED_LANGS.includes(parts[0])) {
-    return `/${parts.slice(1).join("/")}` || "/";
+    const stripped = `/${parts.slice(1).join("/")}`;
+    return stripped === "/" ? "/" : stripped;
   }
   return path || "/";
 };

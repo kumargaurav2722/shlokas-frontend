@@ -4,7 +4,7 @@ import Navbar from "../../components/layout/Navbar";
 import Verse from "../../components/shloka/Verse";
 import { getWorks, getSubWorks, getChapterStats } from "../../services/scripture.service";
 import useLanguage from "../../hooks/useLanguage";
-import { getChapterRoute, getTextRoute, matchBySlug, matchBySlugLoose, slugify } from "../../utils/routes";
+import { getChapterRoute, getTextRoute, matchBySlugLoose, slugify } from "../../utils/routes";
 import { SkeletonList } from "../../components/ui/Skeleton";
 
 const CATEGORY_MAP = {
