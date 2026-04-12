@@ -4,7 +4,11 @@ const STORAGE_KEY = "theme";
 
 const getInitialTheme = () => {
   if (typeof window === "undefined") return "light";
-  return localStorage.getItem(STORAGE_KEY) || "light";
+
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) return stored;
+
+  return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ? "dark" : "light";
 };
 
 export default function useTheme() {
