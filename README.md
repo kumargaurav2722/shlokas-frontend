@@ -94,6 +94,27 @@ The frontend reads these variables:
 
 Use `.env.example` as the template.
 
+### Backend Base URL for Cloners
+
+If someone clones this frontend, they can use the deployed VedVani backend
+immediately by copying `.env.example` to `.env`.
+
+The default public backend configured for open-source setup is:
+
+`https://shlokas-apishlokas-backend-apishlokas.onrender.com`
+
+If they are running their own backend, they only need to replace:
+
+- `VITE_API_BASE`
+- `VITE_AUDIO_CDN_BASE`
+- `VITE_SHARE_CDN_BASE`
+
+Important:
+
+- the backend base URL is not a secret
+- frontend code cannot hide a public API base URL
+- real backend protection must be done on the backend with auth, rate limiting, quotas, and private admin-only endpoints
+
 ## Local Development
 
 ```bash

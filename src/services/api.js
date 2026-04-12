@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const DEFAULT_PUBLIC_API_BASE =
+  "https://shlokas-apishlokas-backend-apishlokas.onrender.com";
+
 const resolveBaseUrl = () => {
   if (typeof process !== "undefined" && process?.env?.NEXT_PUBLIC_API_BASE) {
     return process.env.NEXT_PUBLIC_API_BASE;
@@ -10,7 +13,7 @@ const resolveBaseUrl = () => {
   if (typeof window !== "undefined" && window.__ENV__?.VITE_API_BASE) {
     return window.__ENV__.VITE_API_BASE;
   }
-  return "http://127.0.0.1:8000";
+  return DEFAULT_PUBLIC_API_BASE;
 };
 
 export const api = axios.create({

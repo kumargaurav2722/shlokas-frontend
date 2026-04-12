@@ -41,10 +41,10 @@ cp .env.example .env
 Update the values:
 
 ```env
-VITE_API_BASE=http://127.0.0.1:8000
+VITE_API_BASE=https://shlokas-apishlokas-backend-apishlokas.onrender.com
 VITE_SITE_URL=http://localhost:5173
-VITE_AUDIO_CDN_BASE=http://127.0.0.1:8000
-VITE_SHARE_CDN_BASE=http://127.0.0.1:8000
+VITE_AUDIO_CDN_BASE=https://shlokas-apishlokas-backend-apishlokas.onrender.com
+VITE_SHARE_CDN_BASE=https://shlokas-apishlokas-backend-apishlokas.onrender.com
 ```
 
 Environment variable notes:
@@ -53,6 +53,12 @@ Environment variable notes:
 - `VITE_SITE_URL`: Public URL of the frontend
 - `VITE_AUDIO_CDN_BASE`: Base URL for audio file delivery
 - `VITE_SHARE_CDN_BASE`: Base URL for share-card image generation
+
+For contributors:
+
+- the example file points to the public VedVani backend so the frontend works immediately after cloning
+- if you run your own backend, replace those backend URLs in `.env`
+- do not treat the backend base URL as a secret; protect real access on the backend side instead
 
 ### 5. Start the Dev Server
 

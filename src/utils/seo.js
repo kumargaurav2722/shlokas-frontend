@@ -1,5 +1,8 @@
 import { SUPPORTED_LANGS, stripLangPrefix, withLangPrefix } from "./lang";
 
+const DEFAULT_PUBLIC_API_BASE =
+  "https://shlokas-apishlokas-backend-apishlokas.onrender.com";
+
 const resolveEnv = (key) => {
   if (typeof process !== "undefined" && process?.env?.[key]) {
     return process.env[key];
@@ -21,7 +24,7 @@ export const getSiteUrl = () =>
 export const getApiBase = () =>
   resolveEnv("VITE_API_BASE") ||
   resolveEnv("NEXT_PUBLIC_API_BASE") ||
-  "http://127.0.0.1:8000";
+  DEFAULT_PUBLIC_API_BASE;
 
 export const getAudioBase = () =>
   resolveEnv("VITE_AUDIO_CDN_BASE") ||
