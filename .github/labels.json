@@ -1,0 +1,87 @@
+[
+  {
+    "name": "bug",
+    "color": "d73a4a",
+    "description": "Something is broken or behaving incorrectly"
+  },
+  {
+    "name": "enhancement",
+    "color": "a2eeef",
+    "description": "New feature or improvement request"
+  },
+  {
+    "name": "documentation",
+    "color": "0075ca",
+    "description": "Documentation-only changes or requests"
+  },
+  {
+    "name": "good first issue",
+    "color": "7057ff",
+    "description": "Good for first-time contributors"
+  },
+  {
+    "name": "help wanted",
+    "color": "008672",
+    "description": "Maintainers would welcome a contribution"
+  },
+  {
+    "name": "needs-triage",
+    "color": "fbca04",
+    "description": "Needs maintainer review and categorization"
+  },
+  {
+    "name": "frontend",
+    "color": "1d76db",
+    "description": "Frontend application code or UI work"
+  },
+  {
+    "name": "ui/ux",
+    "color": "c2e0c6",
+    "description": "User interface or user experience change"
+  },
+  {
+    "name": "scripture-data",
+    "color": "bfd4f2",
+    "description": "Scripture browsing, verse data, or devotional content"
+  },
+  {
+    "name": "auth",
+    "color": "5319e7",
+    "description": "Authentication or session-related work"
+  },
+  {
+    "name": "chat",
+    "color": "0e8a16",
+    "description": "Chat, search, or AI-assisted scripture flows"
+  },
+  {
+    "name": "infra",
+    "color": "6f42c1",
+    "description": "Build, deployment, CI, or repo infrastructure"
+  },
+  {
+    "name": "dependencies",
+    "color": "0366d6",
+    "description": "Dependency updates or dependency management"
+  },
+  {
+    "name": "security",
+    "color": "b60205",
+    "description": "Security-sensitive change or concern"
+  },
+  {
+    "name": "blocked",
+    "color": "000000",
+    "description": "Blocked by a dependency, decision, or external issue"
+  },
+  {
+    "name": "question",
+    "color": "d876e3",
+    "description": "Question or clarification request"
+  },
+  {
+    "name": "ignore-for-release",
+    "color": "ededed",
+    "description": "Exclude this pull request from release notes"
+  }
+]

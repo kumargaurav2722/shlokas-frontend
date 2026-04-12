@@ -171,6 +171,43 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 - [Security Policy](./SECURITY.md)
 - [Trademark Notice](./TRADEMARKS.md)
+- [Contribution Guide](./CONTRIBUTING.md)
+- [Changelog](./CHANGELOG.md)
+
+## Repo Automation
+
+This repository includes GitHub automation for:
+
+- CI on pushes and pull requests
+- CodeQL code scanning
+- weekly `npm audit` dependency scanning
+- label synchronization from `.github/labels.json`
+- optional GitHub Project automation for issues and pull requests
+- release creation from semantic version tags
+
+### Project Automation Setup
+
+To enable automatic issue and pull request addition to a GitHub Project, set:
+
+- repository variable `GITHUB_PROJECT_URL`
+- repository secret `ADD_TO_PROJECT_PAT`
+
+`ADD_TO_PROJECT_PAT` should be a token with project access. For private repos,
+it also needs repository access. The workflow is defined in
+`.github/workflows/add-to-project.yml`.
+
+### Release Setup
+
+To publish a release:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The workflow in `.github/workflows/release.yml` will create a GitHub Release
+using automatically generated release notes configured by
+`.github/release.yml`.
 
 ## Security
 
