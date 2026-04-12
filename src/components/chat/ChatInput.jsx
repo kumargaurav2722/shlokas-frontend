@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-export default function ChatInput({ onSend, loading }) {
+export default function ChatInput({
+  onSend,
+  loading,
+  placeholder = "Ask the Gita...",
+  ariaLabel = "Ask the Gita",
+  buttonLabel = "Ask",
+}) {
   const [text, setText] = useState("");
 
   const send = () => {
