@@ -183,8 +183,9 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
         console.error(err);
         setAudioAvailable(false);
       } finally {
-        if (!isMounted) return;
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
