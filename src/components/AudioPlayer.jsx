@@ -47,6 +47,7 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [audioAvailable, setAudioAvailable] = useState(false);
 
   const cacheKey = `audio_url:${textId}:${language}`;
 
@@ -54,14 +55,19 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
     const cached = getCachedUrl(cacheKey);
     if (cached) {
       setAudioUrl(cached);
+      setAudioAvailable(true);
       return cached;
     }
     const res = await api.post(`/audio/${textId}`, null, {
       params: { language }
     });
     const url = resolveAudioUrl(res.data, api.defaults.baseURL);
-    if (!url) return "";
+    if (!url) {
+      setAudioAvailable(false);
+      return "";
+    }
     setAudioUrl(url);
+    setAudioAvailable(true);
     setCachedUrl(cacheKey, url);
     return url;
   };
@@ -143,6 +149,52 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
     }
   }, [prefs?.rate]);
 
+  useEffect(() => {
+    let isMounted = true;
+    const validateAudio = async () => {
+      if (!textId || !language) {
+        setAudioAvailable(false);
+        return;
+      }
+      setLoading(true);
+      setError("");
+      try {
+        const cached = getCachedUrl(cacheKey);
+        if (cached) {
+          if (!isMounted) return;
+          setAudioUrl(cached);
+          setAudioAvailable(true);
+          return;
+        }
+        const res = await api.post(`/audio/${textId}`, null, {
+          params: { language }
+        });
+        const url = resolveAudioUrl(res.data, api.defaults.baseURL);
+        if (!isMounted) return;
+        if (url) {
+          setAudioUrl(url);
+          setAudioAvailable(true);
+          setCachedUrl(cacheKey, url);
+        } else {
+          setAudioAvailable(false);
+        }
+      } catch (err) {
+        if (!isMounted) return;
+        console.error(err);
+        setAudioAvailable(false);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    validateAudio();
+    return () => {
+      isMounted = false;
+    };
+  }, [textId, language, cacheKey]);
+
   const handleSeek = (e) => {
     if (!audioRef.current || !duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -158,6 +210,10 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
     const sec = Math.floor(s % 60);
     return `${m}:${sec.toString().padStart(2, "0")}`;
   };
+
+  if (!audioAvailable) {
+    return null;
+  }
 
   return (
     <div className="inline-flex items-center gap-2 flex-wrap">

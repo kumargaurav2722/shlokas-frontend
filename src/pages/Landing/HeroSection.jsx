@@ -62,7 +62,13 @@ export default function HeroSection() {
           </div>
 
           <div className="card-surface rounded-3xl p-6 gold-shadow">
-            <div className="rounded-2xl bg-white/80 p-6">
+            <Link
+              to={verse ? 
+                withLangPrefix(`/bhagavad-gita/${verse.chapter}/${verse.verse}`, language) : 
+                withLangPrefix("/bhagavad-gita/2/47", language)
+              }
+              className="block rounded-2xl bg-white/80 p-6 hover:bg-white transition"
+            >
               <p className="text-sm uppercase tracking-[0.2em] text-amber-700">
                 Verse of the Day
               </p>
@@ -83,7 +89,7 @@ export default function HeroSection() {
                   <p className="text-xs text-muted">Daily Wisdom</p>
                 </div>
               </div>
-            </div>
+            </Link>
             <div className="mt-5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-4 text-white">
               <p className="text-sm">Start a 7‑day guided journey</p>
               <p className="text-xs opacity-90">

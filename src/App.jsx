@@ -2,7 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import Landing from "./pages/Landing/Landing";
 import Chapters from "./pages/Chapters";
 import Verses from "./pages/Verses";
+<<<<<<< HEAD
 import AskScripture from "./pages/Chat/AskScriptureNamaste";
+=======
+import AskScripture from "./pages/Chat/AskScriptureScreen";
+>>>>>>> e2a85248ea258e9efd459f0d15025d1b689a37d4
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
