@@ -1,23 +1,39 @@
+import ChatEmptyState from "./ChatEmptyState";
 import ChatMessage from "./ChatMessage";
 
-export default function ChatContainer({ messages }) {
+export default function ChatContainer({
+  messages,
+  suggestions = [],
+  onSelectSuggestion,
+  loading = false,
+}) {
+  const hasMessages = messages.length > 0;
+
   return (
     <div
-      className="flex-1 overflow-y-auto px-6 py-8 bg-gradient-to-b from-amber-50/40 to-white"
+      className="min-h-0 flex-1 overflow-y-auto bg-gradient-to-b from-amber-50/40 to-white px-6 py-8"
       role="log"
       aria-live="polite"
     >
-      <div className="mx-auto max-w-3xl">
-        {messages.map((msg, idx) => (
-          <ChatMessage
-            key={idx}
-            role={msg.role}
-            content={msg.content}
-            references={msg.references}
-            provider={msg.provider}
-          />
-        ))}
-      </div>
+      {hasMessages ? (
+        <div className="mx-auto max-w-3xl">
+          {messages.map((msg, idx) => (
+            <ChatMessage
+              key={msg._id || `${msg.role}-${idx}`}
+              role={msg.role}
+              content={msg.content}
+              references={msg.references}
+              provider={msg.provider}
+            />
+          ))}
+        </div>
+      ) : (
+        <ChatEmptyState
+          suggestions={suggestions}
+          onSelectSuggestion={onSelectSuggestion}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }
