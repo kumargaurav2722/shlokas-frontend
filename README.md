@@ -1,260 +1,181 @@
-Shlokas Platform — Frontend Documentation
-This document describes ONLY the FRONTEND of the Shlokas platform.
-The frontend is built to be:
-modern
-calm & devotional
-scalable
-SOLID-principle compliant
-backend-agnostic (easy to integrate & extend)
-🧠 Frontend Vision
-The frontend should provide a complete religious experience, not just pages:
-Read sacred shlokas
-Listen to Sanskrit & translations
-Switch languages easily
-Navigate scriptures naturally
-Ask questions via AI chatbot
-Personalize reading experience
-Feel calm, spiritual, and modern
-🛠️ Tech Stack (Frontend)
-React.js
-Tailwind CSS v4
-React Router
-Axios
-Context API
-Functional components
-SOLID-based folder structure
-📁 Final Frontend Folder Structure
+# Shlokas Frontend
+
+Frontend for the VedVani spiritual reading platform.
+
+This project is a React + Vite application focused on scripture discovery,
+verse reading, devotional browsing, translations, audio playback, and
+AI-assisted scripture exploration.
+
+## What This Repo Includes
+
+- Landing experience for devotional discovery
+- Scripture browsing for Vedas, Upanishads, Puranas, Bhagavad Gita, Ramayana, and Mahabharata
+- Verse reading with translation tabs and audio support
+- Devotional sections for Chalisas and Puja Vidhi
+- Authentication UI
+- Chat UI for scripture questions
+- Profile, bookmarks, history, and personalization-related frontend flows
+
+## Tech Stack
+
+- React 18
+- Vite 7
+- React Router
+- Axios
+- Tailwind CSS v4
+- Context API
+
+## Current App Structure
+
+The active app lives in `src/`.
+
+There is also a legacy root-level `pages/` directory from an older Next.js
+flow. The current Vercel deployment is configured to build the Vite app, not
+that legacy layer.
+
+## Folder Structure
+
+```text
 src/
-├── app/
-│   ├── App.jsx
-│   └── routes.jsx
-│
-├── pages/
-│   ├── Landing/
-│   ├── Scriptures/
-│   ├── Auth/
-│   ├── Chat/
-│   └── Profile/          (future)
-│
+├── app/                 # App shell, router, route-level wiring
+├── assets/              # Static source assets imported in code
+├── compat/              # Compatibility helpers from older migration work
 ├── components/
-│   ├── layout/
-│   ├── shloka/
-│   ├── chat/
-│   ├── auth/
-│   └── common/
-│
-├── services/
-│   ├── api.js
-│   ├── auth.service.js
-│   ├── scripture.service.js
-│   └── chat.service.js
-│
-├── context/
-│   ├── AuthContext.jsx
-│   └── LanguageContext.jsx (future)
-│
-├── hooks/
-│   ├── useAuth.js
-│   └── useAudio.js (future)
-│
-├── styles/
-│   └── index.css
-│
-└── main.jsx
-This structure is intentional:
-Pages = route-level screens
-Components = reusable UI
-Services = API calls only
-Context = global state
-Hooks = reusable logic
-🟢 FRONTEND PHASE 1 — FOUNDATION & LANDING PAGE
-Status: ✅ COMPLETED
-Purpose
-Create a first impression of the platform that feels:
-spiritual
-trustworthy
-modern
-What is DONE in Phase 1
-1️⃣ Tailwind CSS v4 Setup
-CSS-first theming using @theme
-Custom colors:
-saffron
-cream
-dark
-Serif typography for Sanskrit feel
-📄 src/index.css
-2️⃣ Navbar
-Logo / brand name
-Sign In button
-Sign Up button
-Reusable layout component
-📄 components/layout/Navbar.jsx
-3️⃣ Landing Page
-📄 pages/Landing/Landing.jsx
-Landing page is composed of sections, not a single file.
-4️⃣ Hero Section
-📄 pages/Landing/HeroSection.jsx
-Contains:
-Title: spiritual & inspirational
-Subtitle explaining purpose
-CTA buttons:
-“Start Reading”
-“Ask the Gita”
-5️⃣ Popular Shloka Section
-📄 pages/Landing/PopularShlokas.jsx
-Features:
-One famous shloka (static for now)
-Sanskrit text
-Hindi & English translations
-🔊 Audio buttons (reusing existing AudioPlayer)
-Clean card-style layout
-Purpose:
-Show platform capability immediately
-6️⃣ Categories Section
-📄 pages/Landing/Categories.jsx
-Displays clickable cards for:
-Vedas
-Upanishads
-Puranas
-Bhagavad Gita
-Mahabharata
-Purpose:
-Entry point into scriptures
-What NEEDS TO BE DONE Later in Phase 1 (Enhancements)
-Fetch popular shloka dynamically from backend
-Add language dropdown on landing page
-Add animation (fade / slide)
-Make landing fully mobile-optimized
-🟡 FRONTEND PHASE 2 — SCRIPTURES EXPERIENCE
-Status: ✅ COMPLETED (Basic)
-Purpose
-Allow users to naturally navigate scriptures, just like a book.
-What is DONE in Phase 2
-1️⃣ Routing Architecture
-📄 app/routes.jsx
-Routes implemented:
-/scriptures
-/scriptures/:category
-/scriptures/:category/:text
-/scriptures/:category/:text/:chapter
-2️⃣ Scriptures Home
-📄 pages/Scriptures/ScripturesHome.jsx
-Displays scripture categories
-Click → navigates to text list
-3️⃣ Text List Page
-📄 pages/Scriptures/TextList.jsx
-Shows texts based on category
-Example:
-Vedas → Rigveda, Yajurveda…
-Gita → Bhagavad Gita
-(Currently static, backend-ready)
-4️⃣ Chapter List Page
-📄 pages/Scriptures/ChapterList.jsx
-Shows chapter numbers
-Click → verse page
-5️⃣ Verse Page
-📄 pages/Scriptures/VersePage.jsx
-Uses:
-Existing Verse component
-Existing AudioPlayer
-Features:
-Sanskrit text
-Translation tabs
-Audio playback
-Clean reading layout
-6️⃣ Side Panel (Suggestions)
-📄 components/layout/SidePanel.jsx
-Shows related / suggested shlokas
-Helps discovery
-Currently static placeholders
-What NEEDS TO BE DONE in Phase 2 (Next Tasks)
-Fetch texts / chapters / verses from backend
-Implement real “related shlokas” logic
-Improve side panel UX (click → navigate)
-Add breadcrumb navigation
-🟣 FRONTEND PHASE 3 — AUTHENTICATION UI
-Status: ✅ COMPLETED (Basic)
-Purpose
-Give users identity and session control.
-What is DONE in Phase 3
-1️⃣ Auth Layout
-📄 components/auth/AuthLayout.jsx
-Centered card layout
-Reused by all auth pages
-2️⃣ Reusable Auth Form
-📄 components/auth/AuthForm.jsx
-Accepts dynamic fields
-Submit button
-Footer links
-(SOLID: open for extension)
-3️⃣ Login Page
-📄 pages/Auth/Login.jsx
-Email + password
-Calls backend auth API
-Stores token in context
-4️⃣ Signup Page
-📄 pages/Auth/Signup.jsx
-Email + password
-Redirects to login
-5️⃣ Forgot Password Page (UI only)
-📄 pages/Auth/ForgotPassword.jsx
-Email input
-Placeholder logic
-6️⃣ Auth Context
-📄 context/AuthContext.jsx
-Stores auth token
-Login / logout functions
-What NEEDS TO BE DONE in Phase 3 (Advanced Auth)
-Google OAuth UI
-Phone number + OTP UI
-Password reset flow (backend integration)
-Profile dropdown in Navbar
-🔵 FRONTEND PHASE 4 — CHAT UI (ASK THE GITA)
-Status: ✅ COMPLETED
-Purpose
-Let users ask questions, not just read.
-What is DONE in Phase 4
-1️⃣ Chat Page
-📄 pages/Chat/AskScripture.jsx
-Full page chat layout
-Header + message area + input
-2️⃣ Chat Components
-ChatContainer → message list
-ChatMessage → user vs assistant bubble
-ChatInput → input + send button
-3️⃣ Chat Service
-📄 services/chat.service.js
-Connects frontend to backend RAG chatbot
-What NEEDS TO BE DONE in Phase 4 (Enhancements)
-Show verse references separately
-Add “clear chat” button
-Add chat history persistence
-Add loading / typing indicator
-Add voice-based question (future)
-🔴 FRONTEND PHASE 5 — PERSONALIZATION (NOT DONE)
-To Be Built
-Default language selection
-Audio preferences
-Bookmarks / favorites
-Daily shloka
-Reading history
-User profile page
-⚫ FRONTEND PHASE 6 — UX POLISH (NOT DONE)
-To Be Built
-Mobile-first refinement
-Dark mode
-Accessibility (ARIA, keyboard)
-Smooth animations
-Festival themes (Diwali, Gita Jayanti)
-🧭 HOW TO USE THIS AS A TASK FOR CODEX / DEV
-You can assign tasks like this:
-“Implement Frontend Phase 2 enhancement:
-Replace static scripture data with backend API
-Implement real side-panel suggestions
-Add breadcrumb navigation”
-or
-“Implement Frontend Phase 5:
-Create LanguageContext
-Add default language selector
-Persist user preference”
-Each phase is clearly isolated, so work can be parallelized.
+│   ├── auth/            # Auth-specific reusable UI
+│   ├── chat/            # Chat UI building blocks
+│   ├── common/          # Generic reusable UI pieces
+│   ├── layout/          # Navbar, footer, side panel, shell pieces
+│   ├── seo/             # SEO and structured-data helpers
+│   ├── shloka/          # Verse, translation, audio, language UI
+│   └── ui/              # Skeletons and low-level UI helpers
+├── context/             # Global state providers
+├── hooks/               # Reusable logic hooks
+├── i18n/                # Translation labels and language config
+├── pages/
+│   ├── About/           # About page
+│   ├── Admin/           # Admin and analytics screens
+│   ├── Auth/            # Login, signup, callback, forgot password
+│   ├── Bookmarks/       # Saved verses/items
+│   ├── Chat/            # Ask-scripture page
+│   ├── Devotion/        # Chalisas and Puja Vidhi
+│   ├── History/         # Reading history
+│   ├── Landing/         # Home/landing sections
+│   ├── Profile/         # User profile page
+│   ├── Scriptures/      # Overviews, text list, chapter list, verse page
+│   ├── Search/          # Global search experience
+│   └── Topics/          # Topic listing and topic detail pages
+├── services/            # API clients only
+├── styles/              # Theme and variable files
+├── utils/               # Routing, SEO, topic, and helper utilities
+├── index.css            # Global styles
+└── main.jsx             # React entrypoint
+```
+
+## Important Root Files
+
+- `package.json`: scripts, dependencies, Node version
+- `vite.config.js`: Vite configuration
+- `vercel.json`: Vercel deployment config and security headers
+- `.env.example`: example environment variables
+- `CONTRIBUTING.md`: contribution workflow and local setup
+- `SECURITY.md`: vulnerability reporting and repo safety guidance
+- `LICENSE`: MIT license for VedVani
+
+## Environment Variables
+
+The frontend reads these variables:
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `VITE_API_BASE` | Yes | Backend API base URL |
+| `VITE_SITE_URL` | Yes | Public frontend URL |
+| `VITE_AUDIO_CDN_BASE` | Optional | Audio delivery base URL |
+| `VITE_SHARE_CDN_BASE` | Optional | Share-card generation base URL |
+
+Use `.env.example` as the template.
+
+## Local Development
+
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
+
+For the full setup flow, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Available Scripts
+
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
+```
+
+## Backend Expectations
+
+This frontend is backend-integrated but remains loosely coupled.
+
+The app expects endpoints for:
+
+- authentication
+- scripture catalog and verse retrieval
+- bookmarks
+- reading history
+- verse-of-the-day
+- recommendations
+- analytics
+- devotional content
+- chat/search
+
+If your backend shape differs, update the service layer in `src/services/`.
+
+## Deployment
+
+This repo is configured for Vercel and builds the Vite app output in `dist/`.
+
+Important deployment notes:
+
+- Use Node `22.x`
+- Set the production env variables in Vercel
+- The repo uses SPA rewrites in `vercel.json`
+- Security headers are also configured in `vercel.json`
+
+## Open Source Notes
+
+This repository is licensed under MIT in the name of VedVani.
+
+Important tradeoff:
+
+- MIT is permissive
+- It allows reuse, modification, and redistribution
+- It does not prevent others from using implementation ideas
+
+If you want to keep strategic advantage:
+
+- keep the backend private
+- keep private datasets private
+- keep ingestion pipelines private
+- keep admin tooling private
+- protect the VedVani brand separately with trademark strategy if needed
+
+For brand usage guidance, see [TRADEMARKS.md](./TRADEMARKS.md).
+
+## Contributing
+
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
+
+## Security
+
+Please read [SECURITY.md](./SECURITY.md) before reporting vulnerabilities or
+publishing security concerns.
+
+## Trademarks
+
+Please read [TRADEMARKS.md](./TRADEMARKS.md) before reusing the VedVani name,
+logo, or project identity.
+
+## License
+
+[MIT](./LICENSE) © VedVani
