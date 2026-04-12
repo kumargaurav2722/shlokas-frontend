@@ -166,6 +166,12 @@ For brand usage guidance, see [TRADEMARKS.md](./TRADEMARKS.md).
 
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
 
+## Community
+
+- [Code of Conduct](./CODE_OF_CONDUCT.md)
+- [Security Policy](./SECURITY.md)
+- [Trademark Notice](./TRADEMARKS.md)
+
 ## Security
 
 Please read [SECURITY.md](./SECURITY.md) before reporting vulnerabilities or

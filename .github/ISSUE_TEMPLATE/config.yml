@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/kumargaurav2722/shlokas-frontend/security/policy
+    about: Please report security issues through the security policy, not public issues.

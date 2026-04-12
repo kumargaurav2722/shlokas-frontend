@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest an improvement or a new feature
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Please describe the use case clearly so we can evaluate scope and fit.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or goal
+      description: What problem should this feature solve?
+      placeholder: I want to be able to ...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature you want
+      placeholder: We should add ...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional
+      placeholder: I also considered ...
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Screenshots, references, API notes, or design context
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched for existing feature requests before opening this issue
+          required: true
