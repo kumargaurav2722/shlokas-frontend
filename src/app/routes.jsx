@@ -20,7 +20,7 @@ const Login = lazy(() => import("../pages/Auth/Login"));
 const Signup = lazy(() => import("../pages/Auth/Signup"));
 const ForgotPassword = lazy(() => import("../pages/Auth/ForgotPassword"));
 const GoogleCallback = lazy(() => import("../pages/Auth/GoogleCallback"));
-const AskScripture = lazy(() => import("../pages/Chat/AskScriptureScreen"));
+const AskScripture = lazy(() => import("../pages/Chat/AskScriptureNamaste"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
 const Chalisas = lazy(() => import("../pages/Devotion/Chalisas"));
 const PujaVidhi = lazy(() => import("../pages/Devotion/PujaVidhi"));

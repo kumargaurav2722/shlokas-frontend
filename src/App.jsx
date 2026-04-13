@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Landing from "./pages/Landing/Landing";
 import Chapters from "./pages/Chapters";
 import Verses from "./pages/Verses";
-import AskScripture from "./pages/Chat/AskScriptureScreen";
+import AskScripture from "./pages/Chat/AskScriptureNamaste";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
 import ForgotPassword from "./pages/Auth/ForgotPassword";

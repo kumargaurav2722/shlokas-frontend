@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-export default function ChatInput({
+export default function ChatInputLocalized({
   onSend,
   loading,
-  placeholder = "Ask the Gita...",
-  ariaLabel = "Ask the Gita",
-  buttonLabel = "Ask",
+  placeholder,
+  ariaLabel,
+  buttonLabel,
 }) {
   const [text, setText] = useState("");
 
@@ -32,7 +32,7 @@ export default function ChatInput({
           type="button"
           onClick={send}
           disabled={loading || !text.trim()}
-          className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:from-amber-600 hover:to-orange-600 disabled:opacity-50"
+          className="rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 disabled:opacity-50"
         >
           {buttonLabel}
         </button>

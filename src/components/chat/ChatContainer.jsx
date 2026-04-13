@@ -3,7 +3,8 @@ import ChatMessage from "./ChatMessage";
 
 export default function ChatContainer({
   messages,
-  suggestions = [],
+  labels,
+  emptyState,
   onSelectSuggestion,
   loading = false,
 }) {
@@ -24,12 +25,16 @@ export default function ChatContainer({
               content={msg.content}
               references={msg.references}
               provider={msg.provider}
+              labels={labels}
             />
           ))}
         </div>
       ) : (
         <ChatEmptyState
-          suggestions={suggestions}
+          title={emptyState?.title}
+          subtitle={emptyState?.subtitle}
+          description={emptyState?.description}
+          suggestions={emptyState?.suggestions}
           onSelectSuggestion={onSelectSuggestion}
           loading={loading}
         />
