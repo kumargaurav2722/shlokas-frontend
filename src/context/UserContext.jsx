@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import useLanguage from "../hooks/useLanguage";
 import { getMe, updateMe } from "../services/user.service";
@@ -12,7 +12,7 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const syncingRef = useRef(false);
 
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     if (!token) {
       setUser(null);
       return;
@@ -29,21 +29,20 @@ export function UserProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token, pathOverride, setLanguage]);
 
   useEffect(() => {
     loadUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [loadUser]);
 
-  const updateUser = async (payload) => {
+  const updateUser = useCallback(async (payload) => {
     const res = await updateMe(payload);
     setUser(res.data);
     if (payload?.preferredLanguage) {
       setLanguage(payload.preferredLanguage);
     }
     return res.data;
-  };
+  }, [setLanguage]);
 
   useEffect(() => {
     if (!user || !language || !user.preferredLanguage) return;
@@ -63,7 +62,7 @@ export function UserProvider({ children }) {
 
   const value = useMemo(
     () => ({ user, loading, refresh: loadUser, updateUser }),
-    [user, loading]
+    [user, loading, loadUser, updateUser]
   );
 
   return (

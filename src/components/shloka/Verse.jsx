@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useBookmarks from "../../hooks/useBookmarks";
 import useAuth from "../../hooks/useAuth";
 import useLanguage from "../../hooks/useLanguage";
@@ -20,7 +20,10 @@ const LANG_LABELS = {
 };
 
 export default function Verse({ verse }) {
-  const getValue = (lang) => verse?.[lang] ?? verse?.translations?.[lang];
+  const getValue = useCallback(
+    (lang) => verse?.[lang] ?? verse?.translations?.[lang],
+    [verse]
+  );
 
   const availableLangs = useMemo(() => {
     const langs = [];
@@ -33,7 +36,7 @@ export default function Verse({ verse }) {
     if (getValue("ta")) langs.push("ta");
     if (getValue("kn")) langs.push("kn");
     return langs;
-  }, [verse]);
+  }, [getValue]);
 
   const { token } = useAuth() || {};
   const { language } = useLanguage() || {};
@@ -78,7 +81,7 @@ export default function Verse({ verse }) {
       title: verse?.title || `Chapter ${verse?.chapter} Verse ${verse?.verse}`,
       route: route || "/"
     }).catch(() => {});
-  }, [token, verse?.id, verse?.verse, verse?.title, verse?.route]);
+  }, [token, verse?.id, verse?.chapter, verse?.verse, verse?.title, verse?.route]);
 
   const getText = () => {
     if (activeLang === "hi") return getValue("hi");

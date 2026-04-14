@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useDailyReflections from "../../hooks/useDailyReflections";
 import useLanguage from "../../hooks/useLanguage";

@@ -178,7 +178,7 @@ export default function VersePage({
     return () => {
       active = false;
     };
-  }, [resolvedWork, resolvedSubWork, chapterNumber, initialVerses, category]);
+  }, [resolvedWork, resolvedSubWork, chapterNumber, initialVerses, category, language]);
 
   const filteredVerses = useMemo(() => {
     const term = query.trim().toLowerCase();

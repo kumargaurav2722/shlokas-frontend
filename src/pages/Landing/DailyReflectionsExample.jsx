@@ -60,6 +60,7 @@ export function ReflectionsWithService() {
 
   useEffect(() => {
     const fetch = async () => {
+      const { getDailyReflections } = require("../services/dailyReflections.service");
       setLoading(true);
       try {
         // Get today's featured reflection
