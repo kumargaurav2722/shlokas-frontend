@@ -199,11 +199,9 @@ export default function VersePage({
     }
   }, [verseParam, verses]);
 
-  const suggestions = [
-    "Gita 2.47 – Karma Yoga",
-    "Gita 6.5 – Self Upliftment",
-    "Gita 12.15 – Bhakti"
-  ];
+  // For SidePanel - use current chapter for related reflections
+  const sidePanelChapter = chapterNumber || (verses.length > 0 ? verses[0].chapter : null);
+  const sidePanelVerse = verseParam || (verses.length > 0 ? verses[0].verse : null);
 
   const focusIndex = verseParam
     ? verses.findIndex((v) => v.verse === Number(verseParam))
@@ -383,7 +381,12 @@ export default function VersePage({
           </div>
         </main>
 
-        <SidePanel suggestions={suggestions} />
+        <SidePanel
+          isDynamic={true}
+          reflectionMethod="related"
+          chapter={sidePanelChapter}
+          verse={sidePanelVerse}
+        />
       </div>
     </>
   );

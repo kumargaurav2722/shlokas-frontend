@@ -1,6 +1,25 @@
 import { Link } from "react-router-dom";
+import useDailyReflections from "../../hooks/useDailyReflections";
 
-export default function SidePanel({ suggestions = [] }) {
+export default function SidePanel({
+  suggestions = [],
+  chapter = null,
+  verse = null,
+  isDynamic = true,
+  reflectionMethod = "daily"
+}) {
+  // Use hook for dynamic reflections if enabled
+  const { reflections, loading, error } = useDailyReflections({
+    count: 3,
+    method: reflectionMethod,
+    chapter,
+    verse,
+    autoFetch: isDynamic
+  });
+
+  // Use dynamic reflections if available, otherwise fallback to props
+  const displaySuggestions = isDynamic && reflections.length > 0 ? reflections : suggestions;
+
   // Parse verse reference from suggestion string (e.g., "Gita 2.47 – Karma Yoga" -> {chapter: 2, verse: 47})
   const parseVerseRef = (suggestion) => {
     const match = suggestion.match(/(\d+)\.(\d+)/);
@@ -31,36 +50,55 @@ export default function SidePanel({ suggestions = [] }) {
             Suggested verses to contemplate today.
           </p>
 
-          <ul className="mt-4 space-y-3">
-            {suggestions.map((item) => {
-              const verseRef = parseVerseRef(item);
-              if (verseRef) {
+          {loading && isDynamic && (
+            <div className="mt-4 space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="rounded-xl border border-amber-100 bg-white px-4 py-3 h-12 animate-pulse"
+                />
+              ))}
+            </div>
+          )}
+
+          {error && isDynamic && (
+            <div className="mt-4 text-xs text-red-600 bg-red-50 p-3 rounded-lg">
+              Failed to load reflections
+            </div>
+          )}
+
+          {!loading && (
+            <ul className="mt-4 space-y-3">
+              {displaySuggestions.map((item) => {
+                const verseRef = parseVerseRef(item);
+                if (verseRef) {
+                  return (
+                    <li key={item}>
+                      <Link
+                        to={`/bhagavad-gita/${verseRef.chapter}/${verseRef.verse}`}
+                        className="block rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900 shadow-sm hover:shadow-md hover:bg-amber-50 transition"
+                      >
+                        {verseRef.label}
+                      </Link>
+                    </li>
+                  );
+                }
                 return (
-                  <li key={item}>
-                    <Link
-                      to={`/bhagavad-gita/${verseRef.chapter}/${verseRef.verse}`}
-                      className="block rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900 shadow-sm hover:shadow-md hover:bg-amber-50 transition"
-                    >
-                      {verseRef.label}
-                    </Link>
+                  <li
+                    key={item}
+                    className="rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900 shadow-sm hover:shadow-md transition"
+                  >
+                    {item}
                   </li>
                 );
-              }
-              return (
-                <li
-                  key={item}
-                  className="rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900 shadow-sm hover:shadow-md transition"
-                >
-                  {item}
+              })}
+              {displaySuggestions.length === 0 && (
+                <li className="rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900/70">
+                  No suggestions yet.
                 </li>
-              );
-            })}
-            {suggestions.length === 0 && (
-              <li className="rounded-xl border border-amber-100 bg-white px-4 py-3 text-sm text-amber-900/70">
-                No suggestions yet.
-              </li>
-            )}
-          </ul>
+              )}
+            </ul>
+          )}
         </div>
       </div>
     </aside>
