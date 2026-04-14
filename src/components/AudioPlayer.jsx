@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../services/api";
 import useAudio from "../hooks/useAudio";
 import { getAudioFileUrl } from "../utils/seo";
-
-const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+import { apiCache, CACHE_KEYS, CACHE_TTL, cacheUtils } from "../utils/cache";
 
 const resolveAudioUrl = (data, baseURL) => {
   const raw = data?.audio_url || data?.audio_path || "";
@@ -11,31 +10,6 @@ const resolveAudioUrl = (data, baseURL) => {
   if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
   const normalized = raw.startsWith("/") ? raw.slice(1) : raw;
   return `${baseURL}/${normalized}`;
-};
-
-const getCachedUrl = (key) => {
-  try {
-    const stored = JSON.parse(localStorage.getItem(key) || "null");
-    if (!stored) return "";
-    if (Date.now() - stored.ts > CACHE_TTL) {
-      localStorage.removeItem(key);
-      return "";
-    }
-    return stored.url;
-  } catch {
-    return "";
-  }
-};
-
-const setCachedUrl = (key, url) => {
-  try {
-    localStorage.setItem(
-      key,
-      JSON.stringify({ url, ts: Date.now() })
-    );
-  } catch {
-    // ignore cache errors
-  }
 };
 
 export default function AudioPlayer({ textId, language, onPlayStateChange }) {
@@ -48,21 +22,25 @@ export default function AudioPlayer({ textId, language, onPlayStateChange }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const cacheKey = `audio_url:${textId}:${language}`;
+  const cacheKey = cacheUtils.generateKey(CACHE_KEYS.AUDIO_URL, { textId, language });
 
   const ensureAudioUrl = async () => {
-    const cached = getCachedUrl(cacheKey);
+    // Try to get from cache first
+    const cached = apiCache.cache.get(cacheKey, CACHE_TTL.AUDIO);
     if (cached) {
       setAudioUrl(cached);
       return cached;
     }
+
+    // Fetch from API and cache
     const res = await api.post(`/audio/${textId}`, null, {
       params: { language }
     });
     const url = resolveAudioUrl(res.data, api.defaults.baseURL);
     if (!url) return "";
+
     setAudioUrl(url);
-    setCachedUrl(cacheKey, url);
+    apiCache.cache.set(cacheKey, url, CACHE_TTL.AUDIO);
     return url;
   };
 
