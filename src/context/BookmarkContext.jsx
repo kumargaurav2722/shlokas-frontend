@@ -1,6 +1,6 @@
 import { createContext, useEffect, useMemo, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { addBookmark, getBookmarks, removeBookmark } from "../services/bookmark.service";
+import { addBookmark, getBookmarks, removeBookmark, clearBookmarksCache } from "../services/bookmark.service";
 
 export const BookmarkContext = createContext(null);
 
@@ -17,7 +17,7 @@ export function BookmarkProvider({ children }) {
     setLoading(true);
     try {
       const res = await getBookmarks();
-      setBookmarks(res.data || []);
+      setBookmarks(res.data || res || []);
     } catch {
       setBookmarks([]);
     } finally {
