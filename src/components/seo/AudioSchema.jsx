@@ -27,7 +27,7 @@ export default function AudioSchema({ verse, language }) {
         script.parentNode.removeChild(script);
       }
     };
-  }, [verse?.id, language]);
+  }, [language, verse?.id, verse?.route, verse?.title, verse?.chapter, verse?.verse]);
 
   return null;
 }

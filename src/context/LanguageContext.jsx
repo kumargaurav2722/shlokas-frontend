@@ -46,7 +46,7 @@ export function LanguageProvider({ children }) {
     if (browserLang && browserLang !== language) {
       setLanguage(browserLang);
     }
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { addBookmark, getBookmarks, removeBookmark } from "../services/bookmark.service";
 
@@ -9,7 +9,7 @@ export function BookmarkProvider({ children }) {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const loadBookmarks = async () => {
+  const loadBookmarks = useCallback(async () => {
     if (!token) {
       setBookmarks([]);
       return;
@@ -23,17 +23,18 @@ export function BookmarkProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     loadBookmarks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [loadBookmarks]);
 
-  const isBookmarked = (itemId) =>
-    bookmarks.some((b) => b.itemId === itemId);
+  const isBookmarked = useCallback(
+    (itemId) => bookmarks.some((b) => b.itemId === itemId),
+    [bookmarks]
+  );
 
-  const toggleBookmark = async (payload) => {
+  const toggleBookmark = useCallback(async (payload) => {
     const exists = isBookmarked(payload.itemId);
     if (exists) {
       setBookmarks((prev) =>
@@ -58,11 +59,11 @@ export function BookmarkProvider({ children }) {
         await loadBookmarks();
       }
     }
-  };
+  }, [isBookmarked, loadBookmarks]);
 
   const value = useMemo(
     () => ({ bookmarks, loading, refresh: loadBookmarks, isBookmarked, toggleBookmark }),
-    [bookmarks, loading]
+    [bookmarks, loading, loadBookmarks, isBookmarked, toggleBookmark]
   );
 
   return (

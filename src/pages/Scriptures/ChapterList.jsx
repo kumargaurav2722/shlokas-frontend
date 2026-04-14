@@ -106,7 +106,7 @@ export default function ChapterList({
     return () => {
       active = false;
     };
-  }, [categoryKey, config.work, textSlug, workOverride, subWorkOverride]);
+  }, [categoryKey, config.work, textSlug, workOverride, subWorkOverride, selectedSubWork]);
 
   useEffect(() => {
     let active = true;
