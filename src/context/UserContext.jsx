@@ -58,7 +58,7 @@ export function UserProvider({ children }) {
       .finally(() => {
         syncingRef.current = false;
       });
-  }, [language, user?.id, user?.preferredLanguage, pathOverride]);
+  }, [language, user?.id, user?.preferredLanguage, pathOverride, user]);
 
   const value = useMemo(
     () => ({ user, loading, refresh: loadUser, updateUser }),

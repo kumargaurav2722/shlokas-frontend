@@ -56,8 +56,6 @@ export function ReflectionsWithService() {
   const [reflections, setReflections] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const getDailyReflections = require("../services/dailyReflections.service").getDailyReflections;
-
   useEffect(() => {
     const fetch = async () => {
       const { getDailyReflections } = require("../services/dailyReflections.service");
