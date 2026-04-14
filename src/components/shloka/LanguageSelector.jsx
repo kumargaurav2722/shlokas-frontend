@@ -27,7 +27,7 @@ export default function LanguageSelector() {
     if (pathLang && pathLang !== language) {
       setLanguage(pathLang);
     }
-  }, []);
+  }, [language, setLanguage]);
 
   return (
     <select

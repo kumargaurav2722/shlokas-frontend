@@ -92,7 +92,7 @@ export default function SearchPage() {
         }
         return item;
       }),
-    [results]
+    [results, language]
   );
 
   return (

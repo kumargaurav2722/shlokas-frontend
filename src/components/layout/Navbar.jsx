@@ -92,7 +92,7 @@ export default function Navbar() {
             className="rounded-full px-3 py-2 text-xs font-medium text-amber-900 border border-amber-200/70 bg-white/70 hover:bg-white"
             aria-label="Toggle dark mode"
           >
-            {theme === "dark" ? "☀️" : "🌙"}
+            {theme === "dark" ? "🌙" : "☀️"}
           </button>
           <Link
             className="rounded-full px-4 py-2 text-sm font-medium text-amber-900 hover:bg-amber-50"
@@ -177,7 +177,7 @@ export default function Navbar() {
               onClick={toggleTheme}
               className="rounded-full px-3 py-2 text-xs font-medium text-amber-900 border border-amber-200/70 bg-white/70"
             >
-              {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+              {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
             </button>
           </div>
 
