@@ -23,8 +23,15 @@ function VerseRefCard({ verseRef }) {
   );
 }
 
-export default function ChatMessage({ role, content, references, provider }) {
+export default function ChatMessage({
+  role,
+  content,
+  references,
+  provider,
+  labels,
+}) {
   const isUser = role === "user";
+  const providerLabels = labels?.providerLabels || {};
 
   return (
     <div
@@ -41,7 +48,7 @@ export default function ChatMessage({ role, content, references, provider }) {
       {!isUser && references && references.length > 0 && (
         <div className="mt-4 space-y-2">
           <p className="text-xs font-semibold text-amber-700 uppercase tracking-wider">
-            Referenced Verses
+            {labels?.referencedVerses || "Referenced Verses"}
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
             {references.map((r, i) => (
@@ -56,7 +63,11 @@ export default function ChatMessage({ role, content, references, provider }) {
         <div className="mt-3 flex items-center gap-1">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-400" />
           <span className="text-[0.6rem] text-muted">
-            {provider === "groq" ? "AI-powered" : provider === "ollama" ? "Local AI" : "Verse match"}
+            {provider === "groq"
+              ? providerLabels.groq || "AI-powered"
+              : provider === "ollama"
+                ? providerLabels.ollama || "Local AI"
+                : providerLabels.default || "Verse match"}
           </span>
         </div>
       )}
