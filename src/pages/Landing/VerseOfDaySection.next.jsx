@@ -23,6 +23,7 @@ export default function VerseOfDaySection() {
 
   useEffect(() => {
     let active = true;
+    setLoading(true);
     getVerseOfDay(language)
       .then((res) => {
         if (!active) return;
@@ -45,8 +46,9 @@ export default function VerseOfDaySection() {
     markVerseOfDaySeen().catch(() => {});
   }, [token, safeVerse?.id]);
 
-  const verseRoute = safeVerse
-    ? getVerseRoute({
+  const verseRoute = useMemo(() => {
+    if (!safeVerse) return "";
+    return getVerseRoute({
       category: safeVerse.category,
       work: safeVerse.work,
       subWork: safeVerse.sub_work,
@@ -54,8 +56,8 @@ export default function VerseOfDaySection() {
       chapter: safeVerse.chapter,
       verse: safeVerse.verse,
       lang: language
-    })
-    : "";
+    });
+  }, [safeVerse, language]);
 
   if (loading) {
     return (

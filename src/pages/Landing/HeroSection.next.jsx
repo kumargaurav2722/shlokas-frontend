@@ -27,8 +27,9 @@ export default function HeroSection() {
 
   const safeVerse = useMemo(() => normalizeTextRecord(verse), [verse]);
 
-  const sanskrit = safeVerse?.sanskrit || t?.("home.loading");
-  const translation = safeVerse?.translation || "";
+  const sanskrit = safeVerse?.sanskrit || t?.("home.hero_fallback_sanskrit");
+  const translation =
+    safeVerse?.translation || t?.("home.hero_fallback_translation");
   const label = safeVerse
     ? formatVerseReference({
       work: safeVerse.work,
@@ -37,7 +38,7 @@ export default function HeroSection() {
       verse: safeVerse.verse,
       t
     })
-    : "";
+    : t?.("home.hero_fallback_reference");
 
   return (
     <section className="section-shell animate-fade-up">
@@ -83,9 +84,7 @@ export default function HeroSection() {
               <h3 className="mt-3 text-2xl font-semibold text-amber-900">
                 {sanskrit}
               </h3>
-              {translation ? (
-                <p className="mt-4 text-muted">{translation}</p>
-              ) : null}
+              <p className="mt-4 text-muted">{translation}</p>
               <div className="mt-6 flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-700">
                   ॐ
