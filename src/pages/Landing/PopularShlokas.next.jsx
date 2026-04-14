@@ -1,64 +1,37 @@
 import { useEffect, useMemo, useState } from "react";
 import AudioPlayer from "../../components/AudioPlayer";
 import useLanguage from "../../hooks/useLanguage";
-import { getVerses } from "../../services/scripture.service";
-import { normalizeTextRecord } from "../../utils/text";
 
 const SUPPORTED_VERSE_LANGS = ["en", "hi", "bn", "mr", "te", "ta", "kn"];
 
 export default function PopularShlokas() {
   const { language, t, options } = useLanguage() || {};
-  const [overrideLang, setOverrideLang] = useState("");
-  const [verse, setVerse] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const activeLang =
-    overrideLang || (language && SUPPORTED_VERSE_LANGS.includes(language)
-      ? language
-      : "en");
+  const [activeLang, setActiveLang] = useState("en");
 
   useEffect(() => {
-    let active = true;
-    getVerses(
-      "Mahabharata",
-      "Bhagavad Gita",
-      2,
-      "Hindi,English,Bengali,Marathi,Telugu,Tamil,Kannada"
-    )
-      .then((res) => {
-        if (!active) return;
-        const match = (res.data || []).find((item) => Number(item.verse) === 47);
-        setVerse(match ? normalizeTextRecord(match) : null);
-      })
-      .catch(() => {
-        if (active) setVerse(null);
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
+    setActiveLang(
+      language && SUPPORTED_VERSE_LANGS.includes(language)
+        ? language
+        : "en"
+    );
+  }, [language]);
 
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const shloka = useMemo(() => {
-    if (!verse) return null;
-
-    return {
-      id: verse.id,
-      sanskrit: verse.sanskrit,
+  const shloka = useMemo(
+    () => ({
+      id: "demo-id",
+      sanskrit: t?.("home.highlight_sanskrit"),
       translations: {
-        en: verse.en,
-        hi: verse.hi,
-        bn: verse.bn,
-        mr: verse.mr,
-        te: verse.te,
-        ta: verse.ta,
-        kn: verse.kn
+        en: t?.("home.highlight_translation_en"),
+        hi: t?.("home.highlight_translation_hi"),
+        bn: t?.("home.highlight_translation_bn"),
+        mr: t?.("home.highlight_translation_mr"),
+        te: t?.("home.highlight_translation_te"),
+        ta: t?.("home.highlight_translation_ta"),
+        kn: t?.("home.highlight_translation_kn")
       }
-    };
-  }, [verse]);
+    }),
+    [t]
+  );
 
   const getLangLabel = (code) =>
     options?.find((item) => item.value === code)?.label || code.toUpperCase();
@@ -84,13 +57,13 @@ export default function PopularShlokas() {
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="card-surface rounded-3xl p-8">
             <p className="text-xl leading-relaxed text-amber-900">
-              {loading ? t?.("home.loading") : shloka?.sanskrit || ""}
+              {shloka.sanskrit}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {SUPPORTED_VERSE_LANGS.map((lang) => (
                 <button
                   key={lang}
-                  onClick={() => setOverrideLang(lang)}
+                  onClick={() => setActiveLang(lang)}
                   className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
                     activeLang === lang
                       ? "border-transparent bg-gradient-to-r from-amber-500 to-orange-500 text-white"
@@ -102,17 +75,13 @@ export default function PopularShlokas() {
               ))}
             </div>
             <p className="mt-4 text-sm text-muted">
-              {loading
-                ? t?.("home.loading")
-                : shloka?.translations?.[activeLang] || shloka?.translations?.en || ""}
+              {shloka.translations[activeLang] || shloka.translations.en}
             </p>
-            {shloka?.id ? (
-              <div className="mt-8 flex flex-wrap gap-3">
-                <AudioPlayer textId={shloka.id} language="sanskrit" />
-                <AudioPlayer textId={shloka.id} language="hi" />
-                <AudioPlayer textId={shloka.id} language="en" />
-              </div>
-            ) : null}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <AudioPlayer textId={shloka.id} language="sanskrit" />
+              <AudioPlayer textId={shloka.id} language="hi" />
+              <AudioPlayer textId={shloka.id} language="en" />
+            </div>
           </div>
 
           <div className="card-surface flex flex-col justify-between rounded-3xl p-8">

@@ -1,3 +1,5 @@
+import { HOME_TRANSLATIONS } from "./homeTranslations";
+
 export const LANG_OPTIONS = [
   { value: "en", label: "English" },
   { value: "hi", label: "हिन्दी" },
@@ -490,6 +492,8 @@ export const TRANSLATIONS = {
 };
 
 export const getTranslation = (language, key) =>
+  HOME_TRANSLATIONS[language]?.[key] ??
   TRANSLATIONS[language]?.[key] ??
+  HOME_TRANSLATIONS.en?.[key] ??
   TRANSLATIONS.en?.[key] ??
   key;

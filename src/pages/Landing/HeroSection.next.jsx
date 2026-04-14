@@ -27,8 +27,9 @@ export default function HeroSection() {
 
   const safeVerse = useMemo(() => normalizeTextRecord(verse), [verse]);
 
-  const sanskrit = safeVerse?.sanskrit || t?.("home.loading");
-  const translation = safeVerse?.translation || "";
+  const sanskrit = safeVerse?.sanskrit || t?.("home.hero_fallback_sanskrit");
+  const translation =
+    safeVerse?.translation || t?.("home.hero_fallback_translation");
   const label = safeVerse
     ? formatVerseReference({
       work: safeVerse.work,
@@ -37,7 +38,7 @@ export default function HeroSection() {
       verse: safeVerse.verse,
       t
     })
-    : "";
+    : t?.("home.hero_fallback_reference");
 
   return (
     <section className="section-shell animate-fade-up">
@@ -75,23 +76,15 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="card-surface rounded-3xl p-6 gold-shadow">
-            <Link
-              to={verse ? 
-                withLangPrefix(`/bhagavad-gita/${verse.chapter}/${verse.verse}`, language) : 
-                withLangPrefix("/bhagavad-gita/2/47", language)
-              }
-              className="block rounded-2xl bg-white/80 p-6 hover:bg-white transition"
-            >
+          <div className="card-surface gold-shadow rounded-3xl p-6">
+            <div className="rounded-2xl bg-white/80 p-6">
               <p className="text-sm uppercase tracking-[0.2em] text-amber-700">
                 {t?.("home.verse_of_day")}
               </p>
               <h3 className="mt-3 text-2xl font-semibold text-amber-900">
                 {sanskrit}
               </h3>
-              {translation ? (
-                <p className="mt-4 text-muted">{translation}</p>
-              ) : null}
+              <p className="mt-4 text-muted">{translation}</p>
               <div className="mt-6 flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-700">
                   ॐ
@@ -105,7 +98,7 @@ export default function HeroSection() {
                   </p>
                 </div>
               </div>
-            </Link>
+            </div>
             <div className="mt-5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 px-5 py-4 text-white">
               <p className="text-sm">{t?.("home.hero_journey_title")}</p>
               <p className="text-xs opacity-90">

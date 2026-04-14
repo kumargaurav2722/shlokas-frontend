@@ -13,6 +13,7 @@ export default function TrendingVersesSection() {
 
   useEffect(() => {
     let active = true;
+    setLoading(true);
     getTrending(5)
       .then((res) => {
         if (active) setItems(res.data || []);
